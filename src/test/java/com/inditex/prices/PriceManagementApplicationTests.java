@@ -1,10 +1,10 @@
-package com.inditex.productmanagement;
+package com.inditex.prices;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class ProductManagementApplicationTests {
+class PriceManagementApplicationTests {
 
 	@Test
 	void contextLoads() {

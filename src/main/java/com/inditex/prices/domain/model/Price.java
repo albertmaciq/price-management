@@ -1,15 +1,13 @@
-package com.inditex.productmanagement.domain.model;
+package com.inditex.prices.domain.model;
 
 import lombok.Data;
-import org.springframework.data.annotation.Id;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Data
-public class Product {
+public class Price {
 
-    @Id
     private Integer id;
     private Integer brandId;
     private LocalDateTime startDate;

@@ -1,0 +1,311 @@
+swagger: '2.0'
+info:
+  description: Contains operations to manage product prices
+  version: 0.0.1
+  title: Price API
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+
+host: localhost:8080
+basePath: /prices
+schemes:
+  - https
+
+tags:
+  - name: price
+    description: Price Controller
+
+parameters:
+  brand_id:
+    name: brand_id
+    type: integer
+    required: true
+    in: path
+    description: 'Brand id'
+    x-example: '1'
+  product_id:
+    name: product_id
+    type: integer
+    required: true
+    in: path
+    description: 'Product id'
+    x-example: '35455'
+  date:
+    name: date
+    type: string
+    required: true
+    in: header
+    description: 'Request date'
+    x-example: '2020-12-31-23.59.59'
+
+paths:
+  /brands/{brand_id}/products/{product_id}:
+    get:
+      tags:
+        - price
+      summary: Get price of the products attending to ids and request date
+      operationId: getListProductPrice
+      produces:
+        - '*/*'
+      parameters:
+        - $ref: '#/parameters/brand_id'
+        - $ref: '#/parameters/product_id'
+        - $ref: '#/parameters/date'
+      responses:
+        '200':
+          description: Prices list found
+          schema:
+            $ref: '#/definitions/PriceList'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/BadRequest'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/Unauthorized'
+        '403':
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/Forbidden'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/NotFound'
+        '406':
+          description: Not acceptable
+          schema:
+            $ref: '#/definitions/NotAcceptable'
+        '429':
+          description: Too many requests
+          schema:
+            $ref: '#/definitions/TooManyRequests'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/InternalServerError'
+        '503':
+          description: Internal Service Unavailable
+          schema:
+            $ref: '#/definitions/InternalServiceUnavailable'
+      deprecated: false
+definitions:
+  PriceList:
+    type: array
+    items:
+      $ref: '#/definitions/Price'
+  Price:
+    type: object
+    properties:
+      productId:
+        type: integer
+        description: 'Product id'
+        example: 35455
+      brandId:
+        type: integer
+        description: 'Brand id'
+        example: 1
+      price_list:
+        type: integer
+        description: 'Applicable price rate identifier'
+        example: 4
+      startDate:
+        type: string
+        format: date
+        description: 'Date on which the indicated price rate applies'
+        example: '2020-06-14-00.00.00'
+      endDate:
+        type: string
+        format: date
+        description: 'Date on which the indicated price rate applies'
+        example: '2020-06-15-11.00.00'
+      price:
+        type: integer
+        format: int64
+        description: 'final sale price'
+        example: 38.95
+  BadRequest:
+    type: object
+    properties:
+      errors:
+        type: array
+        items:
+          $ref: '#/definitions/BadRequestContent'
+  BadRequestContent:
+    type: object
+    properties:
+      code:
+        type: string
+        example: 400
+        description: "HTTP status code"
+      level:
+        type: string
+        example: "ERROR"
+      message:
+        type: string
+        example: "Bad Request"
+      description:
+        type: string
+        example: "Error found in request"
+  Unauthorized:
+    type: object
+    properties:
+      errors:
+        type: array
+        items:
+          $ref: '#/definitions/UnauthorizedContent'
+  UnauthorizedContent:
+    type: object
+    properties:
+      code:
+        type: string
+        example: 401
+        description: "HTTP status code"
+      level:
+        type: string
+        example: "ERROR"
+      message:
+        type: string
+        example: "Unauthorized"
+      description:
+        type: string
+        example: "Invalid crendentials"
+  Forbidden:
+    type: object
+    properties:
+      errors:
+        type: array
+        items:
+          $ref: '#/definitions/ForbiddenContent'
+  ForbiddenContent:
+    type: object
+    properties:
+      code:
+        type: string
+        example: 403
+        description: "HTTP status code"
+      level:
+        type: string
+        example: "ERROR"
+      message:
+        type: string
+        example: "Forbidden"
+      description:
+        type: string
+        example: "Unauthorizated access"
+  NotFound:
+    type: object
+    properties:
+      errors:
+        type: array
+        items:
+          $ref: '#/definitions/NotFoundContent'
+  NotFoundContent:
+    type: object
+    properties:
+      code:
+        type: string
+        example: 404
+        description: "HTTP status code"
+      level:
+        type: string
+        example: "ERROR"
+      message:
+        type: string
+        example: "Not found"
+      description:
+        type: string
+        example: "Server cannot find the requested resource"
+  NotAcceptable:
+    type: object
+    properties:
+      errors:
+        type: array
+        items:
+          $ref: '#/definitions/NotAcceptableContent'
+  NotAcceptableContent:
+    type: object
+    properties:
+      code:
+        type: string
+        example: 406
+        description: "HTTP status code"
+      level:
+        type: string
+        example: "ERROR"
+      message:
+        type: string
+        example: "Not acceptable"
+      description:
+        type: string
+        example: "Server cannot produce a response according to acceptable values defined"
+  TooManyRequests:
+    type: object
+    properties:
+      errors:
+        type: array
+        items:
+          $ref: '#/definitions/TooManyRequestsContent'
+  TooManyRequestsContent:
+    type: object
+    properties:
+      code:
+        type: string
+        example: 429
+        description: "HTTP status code"
+      level:
+        type: string
+        example: "ERROR"
+      message:
+        type: string
+        example: "Too Many Requests"
+      description:
+        type: string
+        example: "Too many requests have been send"
+  InternalServerError:
+    type: object
+    properties:
+      errors:
+        type: array
+        items:
+          $ref: '#/definitions/InternalServerErrorContent'
+  InternalServerErrorContent:
+    type: object
+    properties:
+      code:
+        type: string
+        example: 500
+        description: "HTTP status code"
+      level:
+        type: string
+        example: "ERROR"
+      message:
+        type: string
+        example: "Internal Server Error"
+      description:
+        type: string
+        example: "Backend returns an unexpected error (). Please contact Support"
+  InternalServiceUnavailable:
+    type: object
+    properties:
+      errors:
+        type: array
+        items:
+          $ref: '#/definitions/InternalServiceUnavailableContent'
+  InternalServiceUnavailableContent:
+    type: object
+    properties:
+      code:
+        type: string
+        example: 503
+        description: "HTTP status code"
+      level:
+        type: string
+        example: "ERROR"
+      message:
+        type: string
+        example: "Internal Server Unavailable"
+      description:
+        type: string
+        example: "Server is not ready to handle the request"
