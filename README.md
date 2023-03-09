@@ -1,1 +1,1 @@
-# product-management-ind
+# product-management
