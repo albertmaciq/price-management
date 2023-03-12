@@ -1,0 +1,6 @@
+  _____
+ |__  /__ _ _ __ __ _
+   / // _` | '__/ _` |
+  / /| (_| | | | (_| |
+ /____\__,_|_|  \__,_|
+${AnsiColor.GREEN}:: Spring Boot ::   ${AnsiColor.DEFAULT}(${info.app.version})

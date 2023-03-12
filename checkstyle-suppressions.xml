@@ -9,4 +9,9 @@
     <!-- To omit javadoc -->
     <suppress checks="Javadoc" files="." />
     <suppress checks="DesignForExtension" files="."/>
+    <!-- To omit constant name pattern -->
+    <suppress checks="ConstantName" files="."/>
+    <!-- To omit LineLength in specific classes-->
+    <suppress checks="LineLength" files="PriceAPI.java"/>
+    <suppress checks="LineLength" files="GlobalExceptionHandler.java"/>
 </suppressions>
