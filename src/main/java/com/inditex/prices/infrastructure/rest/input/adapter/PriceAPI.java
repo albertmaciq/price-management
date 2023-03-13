@@ -1,27 +1,27 @@
 package com.inditex.prices.infrastructure.rest.input.adapter;
 
 import com.inditex.prices.infrastructure.output.model.PriceResponse;
+import com.inditex.prices.infrastructure.rest.input.handler.ErrorConstants;
+import com.inditex.prices.infrastructure.rest.input.handler.PathVariableException;
+import com.inditex.prices.infrastructure.rest.input.handler.RequestParamException;
 import com.inditex.prices.infrastructure.rest.input.port.PriceInputPort;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.MethodParameter;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.MissingPathVariableException;
-import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.lang.reflect.Method;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 
 @RestController
-@RequestMapping(value = "/prices")
+@RequestMapping(value = "/api/prices")
 @Slf4j
 public class PriceAPI {
-
     @Autowired
     private PriceInputPort priceInputPort;
 
@@ -31,11 +31,12 @@ public class PriceAPI {
     }
 
 
-    @GetMapping(value = "/brands/{brand_id}/products/{product_id}")
-    ResponseEntity<PriceResponse> getProductPrice(@PathVariable("brand_id")  final Integer branId,
-                                                  @PathVariable("product_id") final Integer productId,
-                                                  @RequestParam(value = "date") final String date)
-        throws MissingServletRequestParameterException, MissingPathVariableException, SQLException {
+    @GetMapping(value = "/brands/{brandId}/products/{productId}")
+    ResponseEntity<PriceResponse> getProductPrice(@PathVariable("brandId")  final Integer branId,
+                                                  @PathVariable("productId") final Integer productId,
+                                                  @RequestParam(value = "date")
+                                                  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+                                                  final LocalDateTime date) throws SQLException {
 
         log.info("Obtaining the product price init");
 
@@ -46,18 +47,23 @@ public class PriceAPI {
     }
 
     private void checkMissingPathVariable(final Integer branId,
-                                          final Integer productId) throws MissingPathVariableException {
-        if (branId == null) {
-            throw new MissingPathVariableException("brandId", new MethodParameter((Method) null, 0));
+                                          final Integer productId) {
+        if (branId == null && productId == null) {
+            throw new PathVariableException(ErrorConstants.BAD_REQUEST_ERROR_CODE,
+                "ERROR", -1, "Multiple");
+        } else if (branId == null) {
+            throw new PathVariableException(ErrorConstants.BAD_REQUEST_ERROR_CODE,
+                "ERROR", 0, "Brand_id");
         } else if (productId == null) {
-            throw new MissingPathVariableException("productId", new MethodParameter((Method) null, 1));
+            throw new PathVariableException(ErrorConstants.BAD_REQUEST_ERROR_CODE,
+                "ERROR", 1, "Product_id");
         }
-        throw new MissingPathVariableException("brandId OR productId", new MethodParameter((Method) null, -1));
     }
 
-    private void checkMissingRequestParam(final String date) throws MissingServletRequestParameterException {
+    private void checkMissingRequestParam(final LocalDateTime date) {
         if (date == null) {
-            throw new MissingServletRequestParameterException("date", "LocalDateTime");
+            throw new RequestParamException(ErrorConstants.BAD_REQUEST_ERROR_CODE,
+                "ERROR", "date");
         }
     }
 }

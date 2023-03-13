@@ -1,0 +1,64 @@
+{
+	"info": {
+		"_postman_id": "9c8f6436-e1da-4788-8b2e-362658534243",
+		"name": "Price Management Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "14533760"
+	},
+	"item": [
+		{
+			"name": "Test cases",
+			"item": [
+				{
+					"name": "MissingPathVariable",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Error cases",
+			"item": []
+		},
+		{
+			"name": "Obtain price product list OK",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "Check app status",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"const dateNow = new Date('2020-06-16 15:00:00')",
+					"postman.setGlobalVariable(\"date\", dateNow.toLocaleDateString())"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

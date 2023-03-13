@@ -6,10 +6,12 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
+
 @Repository
 public interface EntityRepository extends JpaRepository<Price, Integer> {
 
-    String  query = "SELECT TOP 1 PRODUCT_ID,BRAND_ID,PRICE,START_DATE,END_DATE"
+    String  query = "SELECT TOP 1 ID,PRODUCT_ID,BRAND_ID,PRICE,START_DATE,END_DATE,CURR,PRICE_LIST"
         + " FROM PRICES"
         + " WHERE BRAND_ID=:brandId"
         + " AND PRODUCT_ID=:productId"
@@ -18,5 +20,5 @@ public interface EntityRepository extends JpaRepository<Price, Integer> {
     @Query(value = query, nativeQuery = true)
     Price findByBrandIdProductIdAndDate(@Param("brandId") Integer brandId,
                                         @Param("productId") Integer productId,
-                                        @Param("date") String date);
+                                        @Param("date") LocalDateTime date);
 }

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 
 @Service
 @Slf4j
@@ -23,19 +24,23 @@ public class PriceUseCase implements PriceInputPort {
 
     @Override
     public PriceResponse obtainProductPrice(final Integer brandId,
-                                              final Integer productId,
-                                              final String date) throws SQLException {
+                                            final Integer productId,
+                                            final LocalDateTime date) throws SQLException {
 
-        log.info("Obtaining the product price from repository init");
+        log.info("Obtaining the product price from repository by brandId: {}, "
+            + "productId: {} and date: {}", brandId, productId, date);
+
         PriceResponse priceResponse;
         try {
             Price price = entityRepository.findByBrandIdProductIdAndDate(brandId, productId, date);
+            log.info("Price: {}", price);
             priceResponse = priceMapper.priceToPriceResponse(price);
+            log.info("PriceResponse: {}", priceResponse);
         } catch (Exception ex) {
             throw new SQLException();
         }
 
-        log.info("Product price was found");
+        log.info("Price product was found");
         return priceResponse;
     }
 }
