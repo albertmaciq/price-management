@@ -1,12 +1,11 @@
 # Price-management
-**Price management** es un proyecto basado en **Arquitectura Hexagonal** que se encarga de obtener el precio final
-(*pvp*) y la tarifa que aplica a un producto de una cadena (**Zara**) entre unas fechas determinadas.
+**Price management** es un proyecto basado en **Arquitectura Hexagonal** que se encarga de obtener la tarifa
+que aplica a un producto de una cadena (**Zara**) entre unas fechas determinadas.
 
 ## 📋 Características del proyecto
 ### Formateo código (Google-Java-Format)
 
-Con los siguientes comandos formateamos el código fuente, exceptuando los tests, otorgando legibilidad y consistencia
-al código.
+Con los siguientes comandos formateamos el código fuente, otorgando legibilidad y consistencia al código.
 ```
 mvn com.coveo:fmt-maven-plugin:format
 mvn com.coveo:fmt-maven-plugin:check
@@ -28,18 +27,19 @@ Para ver la documentación referente a la API de una manera más cómoda necesit
 [api.yaml](src/main/resources/swagger/api.yaml) en el [Swagger Editor](https://editor.swagger.io/).
 
 ### API Testing
-[Colección de pruebas de Postman](Price Management Collection.postman_collection.json).
+[Colección de pruebas de Postman](Price%20Management%20Collection.postman_collection.json).
 
 ### PIT Mutation Testing
 
 Para poder generar el informe de **PITest** referente al proyecto será necesario hacerlo usando el siguiente comando:
 ```
-mvn org.pitest:pitest-maven:MutationCoverage
+mvn test-compile org.pitest:pitest-maven:mutationCoverage
 ```
 
 Esto generará una carpeta (pit-reports) dentro del target del proyecto. Dicha carpeta a su vez tendrá un fichero
 index.html que se podrá abrir en el navegador y explorar el informe de testing generado.
 
+![img.png](testing-report.png)
 ## ️ ⚙️ Ejecución ️y configuración
 
 Para ejecutar la aplicación bien se puede hacer accediendo a la clase PriceManagementApplication o bien ejecutando

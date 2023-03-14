@@ -22,11 +22,6 @@ public class PriceAPI {
     @Autowired
     private PriceInputPort priceInputPort;
 
-    @GetMapping("/status")
-    String status() {
-        return "Estoy vivo";
-    }
-
     @GetMapping(value = "/brands/{brandId}/products/{productId}")
     ResponseEntity<PriceResponse> getProductPrice(@PathVariable("brandId")  final Integer branId,
                                                   @PathVariable("productId") final Integer productId,
