@@ -11,7 +11,8 @@ import java.time.LocalDateTime;
 @Repository
 public interface EntityRepository extends JpaRepository<Price, Integer> {
 
-    String  query = "SELECT TOP 1 ID,PRODUCT_ID,BRAND_ID,PRICE,START_DATE,END_DATE,CURR,PRICE_LIST"
+    String  query = "SELECT TOP 1 ID,PRODUCT_ID,BRAND_ID,PRICE,START_DATE,END_DATE,"
+        + " CURR,PRICE_LIST,PRIORITY"
         + " FROM PRICES"
         + " WHERE BRAND_ID=:brandId"
         + " AND PRODUCT_ID=:productId"

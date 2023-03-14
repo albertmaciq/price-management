@@ -5,7 +5,7 @@ import com.inditex.prices.infrastructure.output.model.PriceResponse;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
-public interface PriceMapper  {
+public interface PriceMapper {
 
-    PriceResponse priceToPriceResponse(Price price);
+    PriceResponse mapperToResponse(Price price);
 }

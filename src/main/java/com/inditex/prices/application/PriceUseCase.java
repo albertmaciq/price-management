@@ -5,6 +5,7 @@ import com.inditex.prices.infrastructure.output.mapper.PriceMapper;
 import com.inditex.prices.infrastructure.output.model.PriceResponse;
 import com.inditex.prices.infrastructure.output.port.EntityRepository;
 import com.inditex.prices.infrastructure.rest.input.port.PriceInputPort;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,7 @@ import java.time.LocalDateTime;
 
 @Service
 @Slf4j
+@AllArgsConstructor
 public class PriceUseCase implements PriceInputPort {
 
     @Autowired
@@ -31,14 +33,14 @@ public class PriceUseCase implements PriceInputPort {
             + "productId: {} and date: {}", brandId, productId, date);
 
         PriceResponse priceResponse;
-        try {
+
             Price price = entityRepository.findByBrandIdProductIdAndDate(brandId, productId, date);
             log.info("Price: {}", price);
-            priceResponse = priceMapper.priceToPriceResponse(price);
+            if (price == null) {
+                throw new SQLException();
+            }
+            priceResponse = priceMapper.mapperToResponse(price);
             log.info("PriceResponse: {}", priceResponse);
-        } catch (Exception ex) {
-            throw new SQLException();
-        }
 
         log.info("Price product was found");
         return priceResponse;

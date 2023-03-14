@@ -4,9 +4,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.sql.SQLException;
@@ -15,39 +17,40 @@ import java.sql.SQLException;
 @Slf4j
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler(PathVariableException.class)
-    protected ResponseEntity<Object> handleBadRequestException(final PathVariableException ex,
-                                                               final WebRequest request) {
-        log.error(HttpStatus.BAD_REQUEST.getReasonPhrase());
 
-        String detailedDescription = String.format("%s path variable is/are missing in %d index",
-            ex.getPathVariable(), ex.getIndex());
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    protected ResponseEntity<Object> handleBadRequestException(final MethodArgumentTypeMismatchException ex,
+                                                               final WebRequest request) {
+        log.info("Path variable mismatch");
+        log.error(ex.getLocalizedMessage());
 
         return handleExceptionInternal(ex,
-            new GlobalHandlerErrorResponse(ex.getCode(),
+            new GlobalHandlerErrorResponse(ErrorConstants.BAD_REQUEST_ERROR_CODE,
                 "ERROR", HttpStatus.BAD_REQUEST.getReasonPhrase(),
-                detailedDescription),
+                ErrorConstants.BAD_REQUEST_ERROR_DESC),
             new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
     }
 
-    @ExceptionHandler(RequestParamException.class)
-    protected ResponseEntity<Object> handleBadRequestException(final RequestParamException ex,
-                                                               final WebRequest request) {
-        log.error(HttpStatus.BAD_REQUEST.getReasonPhrase());
-
-        String detailedDescription = String.format("%s request param is missing", ex.getParam());
+    @Override
+    protected ResponseEntity<Object> handleMissingServletRequestParameter(final MissingServletRequestParameterException ex,
+                                                                          final HttpHeaders headers,
+                                                                          final HttpStatus status,
+                                                                          final WebRequest request) {
+        log.info("Missing request param");
+        log.error(ex.getLocalizedMessage());
 
         return handleExceptionInternal(ex,
-            new GlobalHandlerErrorResponse(ex.getCode(),
-                ex.getLevel(), HttpStatus.BAD_REQUEST.getReasonPhrase(),
-                detailedDescription),
-            new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+            new GlobalHandlerErrorResponse(ErrorConstants.BAD_REQUEST_ERROR_CODE,
+                "ERROR", HttpStatus.BAD_REQUEST.getReasonPhrase(),
+                ErrorConstants.BAD_REQUEST_ERROR_DESC),
+            headers, HttpStatus.BAD_REQUEST, request);
     }
 
     @ExceptionHandler(SQLException.class)
     protected ResponseEntity<Object> handleSQLException(final SQLException ex,
                                                         final WebRequest request) {
-        log.error("No data found in the data base");
+        log.info("No data found in the database");
+        log.error(ex.getLocalizedMessage());
 
         return handleExceptionInternal(ex,
             new GlobalHandlerErrorResponse(ErrorConstants.NOT_FOUND_ERROR_CODE,

@@ -8,24 +8,24 @@ info:
     url: http://www.apache.org/licenses/LICENSE-2.0.html
 
 host: localhost:8080
-basePath: /prices
+basePath: /api/prices
 schemes:
-  - https
+  - http
 
 tags:
   - name: price
     description: Price Controller
 
 parameters:
-  brand_id:
-    name: brand_id
+  brandId:
+    name: brandId
     type: integer
     required: true
     in: path
     description: 'Brand id'
     x-example: '1'
-  product_id:
-    name: product_id
+  productId:
+    name: productId
     type: integer
     required: true
     in: path
@@ -37,10 +37,10 @@ parameters:
     required: true
     in: header
     description: 'Request date'
-    x-example: '2020-12-31-23.59.59'
+    x-example: '2020-12-31T23:59:59'
 
 paths:
-  /brands/{brand_id}/products/{product_id}:
+  /brands/{brandId}/products/{productId}:
     get:
       tags:
         - price
@@ -49,14 +49,14 @@ paths:
       produces:
         - '*/*'
       parameters:
-        - $ref: '#/parameters/brand_id'
-        - $ref: '#/parameters/product_id'
+        - $ref: '#/parameters/brandId'
+        - $ref: '#/parameters/productId'
         - $ref: '#/parameters/date'
       responses:
         '200':
           description: Prices list found
           schema:
-            $ref: '#/definitions/PriceList'
+            $ref: '#/definitions/Price'
         '400':
           description: Bad Request
           schema:
@@ -71,10 +71,6 @@ paths:
             $ref: '#/definitions/InternalServerError'
       deprecated: false
 definitions:
-  PriceList:
-    type: array
-    items:
-      $ref: '#/definitions/Price'
   Price:
     type: object
     properties:
@@ -86,10 +82,11 @@ definitions:
         type: integer
         description: 'Brand id'
         example: 1
-      price_list:
+      price:
         type: integer
-        description: 'Applicable price rate identifier'
-        example: 4
+        format: int64
+        description: 'final sale price'
+        example: 38.95
       startDate:
         type: string
         format: date
@@ -100,19 +97,7 @@ definitions:
         format: date
         description: 'Date on which the indicated price rate applies'
         example: '2020-06-15-11.00.00'
-      price:
-        type: integer
-        format: int64
-        description: 'final sale price'
-        example: 38.95
   BadRequest:
-    type: object
-    properties:
-      errors:
-        type: array
-        items:
-          $ref: '#/definitions/BadRequestContent'
-  BadRequestContent:
     type: object
     properties:
       code:
@@ -131,13 +116,6 @@ definitions:
   NotFound:
     type: object
     properties:
-      errors:
-        type: array
-        items:
-          $ref: '#/definitions/NotFoundContent'
-  NotFoundContent:
-    type: object
-    properties:
       code:
         type: string
         example: 404
@@ -154,13 +132,6 @@ definitions:
   InternalServerError:
     type: object
     properties:
-      errors:
-        type: array
-        items:
-          $ref: '#/definitions/InternalServerErrorContent'
-  InternalServerErrorContent:
-    type: object
-    properties:
       code:
         type: string
         example: 500
@@ -173,4 +144,4 @@ definitions:
         example: "Internal Server Error"
       description:
         type: string
-        example: "Backend returns an unexpected error.Please contact support"
+        example: "Something went wrong"

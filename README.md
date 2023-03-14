@@ -25,10 +25,10 @@ mvn checkstyle:checkstyle
 ### Documentación de la API
 
 Para ver la documentación referente a la API de una manera más cómoda necesitaremos copiar el siguiente documento
-[api.yaml](src/main/resources/api.yaml) en el [Swagger Editor](https://editor.swagger.io/).
+[api.yaml](src/main/resources/swagger/api.yaml) en el [Swagger Editor](https://editor.swagger.io/).
 
 ### API Testing
-[Colección de pruebas de Postman]().
+[Colección de pruebas de Postman](Price Management Collection.postman_collection.json).
 
 ### PIT Mutation Testing
 
