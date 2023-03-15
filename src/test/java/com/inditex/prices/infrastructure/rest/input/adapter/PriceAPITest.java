@@ -36,7 +36,6 @@ class PriceAPITest {
     @Autowired
     private ObjectMapper objectMapper;
 
-    //- Test 1: petición a las 10:00 del día 14 del producto 35455 para la brand 1 (ZARA)
     @Test
     void should_responseStatusOk_when_request_35455_product_at_10_on_14th_for_ZARA() throws Exception {
         LocalDateTime date = LocalDateTime.parse("2020-06-14T10:00:00");
@@ -55,7 +54,6 @@ class PriceAPITest {
         then(response.getEndDate()).isEqualTo(LocalDateTime.parse("2020-12-31T23:59:59"));
     }
 
-    //- Test 2: petición a las 16:00 del día 14 del producto 35455 para la brand 1 (ZARA)
     @Test
     void should_responseStatusOk_when_request_35455_product_at_16_on_14th_for_ZARA() throws Exception {
         LocalDateTime date = LocalDateTime.parse("2020-06-14T16:00:00");
@@ -74,7 +72,6 @@ class PriceAPITest {
         then(response.getEndDate()).isEqualTo(LocalDateTime.parse("2020-06-14T18:30:00"));
     }
 
-    //- Test 3: petición a las 21:00 del día 14 del producto 35455 para la brand 1 (ZARA)
     @Test
     void should_responseStatusOk_when_request_35455_product_at_21_on_14th_for_ZARA() throws Exception {
         LocalDateTime date = LocalDateTime.parse("2020-06-14T21:00:00");
@@ -93,7 +90,6 @@ class PriceAPITest {
         then(response.getEndDate()).isEqualTo(LocalDateTime.parse("2020-12-31T23:59:59"));
     }
 
-    //- Test 4: petición a las 10:00 del día 15 del producto 35455 para la brand 1 (ZARA)
     @Test
     void should_responseStatusOk_when_request_35455_product_at_10_on_15th_for_ZARA() throws Exception {
         LocalDateTime date = LocalDateTime.parse("2020-06-15T10:00:00");
@@ -112,7 +108,6 @@ class PriceAPITest {
         then(response.getEndDate()).isEqualTo(LocalDateTime.parse("2020-06-15T11:00:00"));
     }
 
-    //- Test 5: petición a las 21:00 del día 16 del producto 35455 para la brand 1 (ZARA)
     @Test
     void should_responseStatusOk_when_request_35455_product_at_21_on_16th_for_ZARA() throws Exception {
         LocalDateTime date = LocalDateTime.parse("2020-06-16T21:00:00");
@@ -131,7 +126,6 @@ class PriceAPITest {
         then(response.getEndDate()).isEqualTo(LocalDateTime.parse("2020-12-31T23:59:59"));
     }
 
-    // 400 missing request param
     @Test
     void should_responseStatusBadRequest_when_request_price_without_date() throws Exception {
         String endpoint = String.format(endpointFormat, BRAND_ID, PRODUCT_ID);
@@ -148,8 +142,6 @@ class PriceAPITest {
         then(response.getDescription()).isEqualTo("Error found in request");
     }
 
-
-    // 400 wrong path variable
     @Test
     void should_responseStatusBadRequest_when_request_price_with_wrong_brandId_variable() throws Exception {
         LocalDateTime date = LocalDateTime.parse("2020-06-14T10:00:00");
@@ -167,7 +159,6 @@ class PriceAPITest {
         then(response.getDescription()).isEqualTo("Error found in request");
     }
 
-    // 404 url missing path variable
     @Test
     void should_responseStatusBadRequest_when_request_price_without_productId() throws Exception {
         LocalDateTime date = LocalDateTime.parse("2020-06-14T10:00:00");
@@ -181,7 +172,6 @@ class PriceAPITest {
         then(response.getResponse().getStatus()).isEqualTo(HttpStatus.NOT_FOUND.value());
     }
 
-    // 404 data not found in database
     @Test
     void should_responseStatusNotFound_when_request_data_not_found_in_database() throws Exception {
         LocalDateTime date = LocalDateTime.parse("2020-06-16T21:00:00");
