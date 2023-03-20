@@ -1,7 +1,7 @@
 package com.inditex.prices.infrastructure.rest.input.adapter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.inditex.prices.infrastructure.output.model.PriceResponse;
+import com.inditex.prices.application.model.PriceResponse;
 import com.inditex.prices.infrastructure.rest.input.handler.GlobalHandlerErrorResponse;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

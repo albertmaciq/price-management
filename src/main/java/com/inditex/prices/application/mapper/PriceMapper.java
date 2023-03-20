@@ -1,7 +1,7 @@
-package com.inditex.prices.infrastructure.output.mapper;
+package com.inditex.prices.application.mapper;
 
 import com.inditex.prices.domain.model.Price;
-import com.inditex.prices.infrastructure.output.model.PriceResponse;
+import com.inditex.prices.application.model.PriceResponse;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
