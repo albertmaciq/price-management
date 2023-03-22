@@ -39,7 +39,7 @@ mvn test-compile org.pitest:pitest-maven:mutationCoverage
 Esto generará una carpeta (pit-reports) dentro del target del proyecto. Dicha carpeta a su vez tendrá un fichero
 index.html que se podrá abrir en el navegador y explorar el informe de testing generado.
 
-![img.png](PiTest-report.png)
+![img.png](testing-report.png)
 ## ️ ⚙️ Ejecución ️y configuración
 
 Para ejecutar la aplicación bien se puede hacer accediendo a la clase PriceManagementApplication o bien ejecutando

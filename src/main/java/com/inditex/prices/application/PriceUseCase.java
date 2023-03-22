@@ -31,13 +31,15 @@ public class PriceUseCase implements PriceInputPort {
         log.info("Obtaining the product price from repository by brandId: {}, "
             + "productId: {} and date: {}", brandId, productId, date);
 
-        Price price = (Price) entityRepository
-            .findByBrandIdProductIdAndDate(brandId, productId, date);
+        PriceResponse priceResponse;
 
-        log.info("Price: {}", price);
-
-        PriceResponse priceResponse = priceMapper.mapperToResponse(price);
-        log.info("PriceResponse: {}", priceResponse);
+            Price price = entityRepository.findByBrandIdProductIdAndDate(brandId, productId, date);
+            log.info("Price: {}", price);
+            if (price == null) {
+                throw new SQLException();
+            }
+            priceResponse = priceMapper.mapperToResponse(price);
+            log.info("PriceResponse: {}", priceResponse);
 
         log.info("Price product was found");
         return priceResponse;

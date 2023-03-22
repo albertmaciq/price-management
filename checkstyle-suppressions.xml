@@ -14,6 +14,4 @@
     <!-- To omit LineLength in specific classes-->
     <suppress checks="LineLength" files="PriceAPI.java"/>
     <suppress checks="LineLength" files="GlobalExceptionHandler.java"/>
-    <!-- To omit unnecessary MagicNumber -->
-    <suppress checks="MagicNumber" files="InMemoryRepository.java"/>
 </suppressions>
