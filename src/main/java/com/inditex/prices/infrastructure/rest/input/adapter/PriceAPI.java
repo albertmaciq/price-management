@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 
 @RestController
@@ -26,7 +27,7 @@ public class PriceAPI {
                                                   @PathVariable("productId") final Integer productId,
                                                   @RequestParam(value = "date")
                                                   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-                                                  final LocalDateTime date) {
+                                                  final LocalDateTime date) throws SQLException {
         log.info("Obtaining the product price init");
         return ResponseEntity.ok(priceInputPort.obtainProductPrice(branId, productId, date));
     }

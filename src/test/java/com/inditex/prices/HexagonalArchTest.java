@@ -27,7 +27,7 @@ public class HexagonalArchTest {
 
     @ArchTest
     static final ArchRule infrastructure_output_adapter_naming_check = classes()
-        .that().resideInAPackage("..infrastructure.output.adapter")
+        .that().resideInAPackage("..infrastructure.output..")
         .should().haveSimpleNameEndingWith("Repository");
 
     @ArchTest
@@ -61,7 +61,7 @@ public class HexagonalArchTest {
     @ArchTest
     static final ArchRule repositories_should_located_in_output_adapter = classes()
         .that().areAnnotatedWith(Repository.class)
-        .should().resideInAPackage("..infrastructure.output.adapter..");
+        .should().resideInAPackage("..infrastructure.output..");
 
     @ArchTest
     static final ArchRule controllers_should_located_in_infrastructure_rest_input_adapter = classes()
@@ -92,12 +92,6 @@ public class HexagonalArchTest {
         .that().resideInAPackage("..infrastructure.output.port..")
         .should().onlyBeAccessed()
         .byAnyPackage("..infrastructure..","..application");
-
-    @ArchTest
-    static final ArchRule infrastructure_output_adapter_layer_should_only_be_accessed_by  = classes()
-        .that().resideInAPackage("..infrastructure.output.adapter..")
-        .should().onlyBeAccessed()
-        .byAnyPackage("..infrastructure..");
 
     @ArchTest
     static final ArchRule infrastructure_input_adapter_layer_should_only_be_accessed_by  = classes()

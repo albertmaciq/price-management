@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 
 @Service
@@ -26,7 +27,7 @@ public class PriceUseCase implements PriceInputPort {
     @Override
     public PriceResponse obtainProductPrice(final Integer brandId,
                                             final Integer productId,
-                                            final LocalDateTime date) {
+                                            final LocalDateTime date) throws SQLException {
 
         log.info("Obtaining the product price from repository by brandId: {}, "
             + "productId: {} and date: {}", brandId, productId, date);
